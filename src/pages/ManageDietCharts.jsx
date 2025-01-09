@@ -92,13 +92,13 @@ const ManageDietCharts = () => {
       <td className="border border-gray-300 px-4 py-2 space-x-2">
         <Link
           to={`/manager/edit-diet-chart/${chart._id}`}
-          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+          className="bg-blue-500 m-2 text-white px-2 py-1 rounded hover:bg-blue-600"
         >
           Edit
         </Link>
         <button
           onClick={() => handleDelete(chart._id)}
-          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+          className="bg-red-500 m-2 text-white px-2 py-1 rounded hover:bg-red-600"
         >
           Delete
         </button>
