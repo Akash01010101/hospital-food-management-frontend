@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import HomeButton from "../components/HomeButton";
 
 const PatientManagement = () => {
   const [patients, setPatients] = useState([]);
@@ -9,7 +10,7 @@ const PatientManagement = () => {
   const fetchPatients = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/patients", {
+      const response = await axios.get("https://hospital-food-management-production.up.railway.app/api/patients", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -19,6 +20,22 @@ const PatientManagement = () => {
       console.error("Error fetching patients:", error);
     }
   };
+const handleDelete = async (id) => {
+  if (window.confirm("Are you sure you want to delete this patient?")) {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`https://hospital-food-management-production.up.railway.app/api/patients/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Patient deleted successfully.");
+      fetchPatients();
+    } catch (error) {
+      console.error("Error deleting patient:", error);
+    }
+  }
+};
 
   useEffect(() => {
     fetchPatients();
@@ -32,7 +49,7 @@ const PatientManagement = () => {
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-3xl font-bold mb-6">Patient Management</h1>
 
-      {/* Search and Add Buttons */}
+
       <div className="flex justify-between items-center mb-6">
         <input
           type="text"
@@ -49,7 +66,6 @@ const PatientManagement = () => {
         </Link>
       </div>
 
-      {/* Patient List Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-lg shadow">
           <thead>
@@ -91,7 +107,7 @@ const PatientManagement = () => {
           </tbody>
         </table>
       </div>
-
+            <HomeButton/>
       {filteredPatients.length === 0 && (
         <p className="text-gray-500 mt-4">No patients found.</p>
       )}
@@ -99,21 +115,5 @@ const PatientManagement = () => {
   );
 };
 
-const handleDelete = async (id) => {
-  if (window.confirm("Are you sure you want to delete this patient?")) {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/patients/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      alert("Patient deleted successfully.");
-      fetchPatients();
-    } catch (error) {
-      console.error("Error deleting patient:", error);
-    }
-  }
-};
 
 export default PatientManagement;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import HomeButton from "../components/HomeButton";
 
 const EditDietChart = () => {
-  const { id } = useParams(); // Get the diet chart ID from the URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const [dietChart, setDietChart] = useState({
@@ -14,13 +15,11 @@ const EditDietChart = () => {
     nightMeal: { foodItems: [], instructions: "" },
   });
   const [patients, setPatients] = useState([]);
-
-  // Fetch the diet chart details
   useEffect(() => {
     const fetchDietChart = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:5000/api/diet-charts/${id}`, {
+        const response = await axios.get(`https://hospital-food-management-production.up.railway.app/api/diet-charts/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setDietChart(response.data);
@@ -32,7 +31,7 @@ const EditDietChart = () => {
     const fetchPatients = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:5000/api/patients`, {
+        const response = await axios.get(`https://hospital-food-management-production.up.railway.app/api/patients`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPatients(response.data.patients);
@@ -59,7 +58,7 @@ const EditDietChart = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5000/api/diet-charts/${id}`, dietChart, {
+      await axios.put(`https://hospital-food-management-production.up.railway.app/api/diet-charts/${id}`, dietChart, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Diet Chart updated successfully!");
@@ -71,6 +70,7 @@ const EditDietChart = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-2xl font-bold mb-4">Edit Diet Chart</h1>
       <form className="bg-white shadow rounded-lg p-6 space-y-4" onSubmit={handleSubmit}>
@@ -121,6 +121,8 @@ const EditDietChart = () => {
         </button>
       </form>
     </div>
+    <HomeButton/>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import HomeButton from "../components/HomeButton";
 
 const ManageDietCharts = () => {
   const [dietCharts, setDietCharts] = useState([]);
@@ -10,11 +11,10 @@ const ManageDietCharts = () => {
   const fetchDietCharts = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/diet-charts", {
+      const response = await axios.get("https://hospital-food-management-production.up.railway.app/api/diet-charts", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDietCharts(response.data);
-      console.log(response)
       setLoading(false);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to fetch diet charts");
@@ -26,7 +26,7 @@ const ManageDietCharts = () => {
     if (window.confirm("Are you sure you want to delete this diet chart?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:5000/api/diet-charts/${id}`, {
+        await axios.delete(`https://hospital-food-management-production.up.railway.app/api/diet-charts/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setDietCharts((prev) => prev.filter((chart) => chart._id !== id));
@@ -110,6 +110,7 @@ const ManageDietCharts = () => {
           </>
         )}
       </div>
+      <HomeButton/>
     </div>
   );
 };

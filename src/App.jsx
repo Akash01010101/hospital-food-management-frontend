@@ -5,6 +5,10 @@ import PatientManagement from "./pages/PatientManagement";
 import AddPatient from "./pages/AddPatient";
 import ManageDietCharts from "./pages/ManageDietCharts";
 import EditDietChart from "./pages/EditDietChart";
+import AddDietChart from "./pages/AddDietChart";
+import ManageStaff from "./pages/ManageStaff";
+import PantryDashboard from "./pages/Pantrydashboard";
+import DeliveryDashboard from "./pages/DeliveryDashboard";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -20,10 +24,16 @@ function App() {
             <Route path="/manager/add-patient" element={<AddPatient />} />
             <Route path="/manager/diet-charts" element={<ManageDietCharts />} />
             <Route path="/manager/edit-diet-chart/:id" element={<EditDietChart/>} />
+            <Route path="/manager/add-diet-chart" element={<AddDietChart/>} />
+            <Route path="/manager/manage-staff" element={<ManageStaff />} />
             </>
+            ):(isAuthenticated && role=="Pantry" ? (
+              <Route path="/pantry/dashboard" element={<PantryDashboard />} />
             ):(
-              <Route path="*" element={<Navigate to="/login" />} />
-            )}
+              isAuthenticated?(
+                <Route path="/delivery/dashboard" element={<DeliveryDashboard />} />
+              ):(<Route path="/" element={<Login />} />)
+            ))}
       </Routes>
     </Router>
   );

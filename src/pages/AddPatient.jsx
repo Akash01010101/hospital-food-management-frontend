@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import HomeButton from "../components/HomeButton";
 
 const AddPatient = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const AddPatient = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/api/patients",
+        "https://hospital-food-management-production.up.railway.app/api/patients",
         {
           ...formData,
           diseases: formData.diseases.split(",").map((d) => d.trim()),
@@ -47,6 +48,7 @@ const AddPatient = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-100 p-8 flex justify-center items-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
         <h1 className="text-2xl font-bold mb-6">Add New Patient</h1>
@@ -202,7 +204,10 @@ const AddPatient = () => {
           </button>
         </form>
       </div>
+      
     </div>
+    <HomeButton/>
+    </>
   );
 };
 
